@@ -1,0 +1,240 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Detail | Chi tiết sản phẩm{% endblock title %}
+{% block content %}
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="{% url 'store:index' %}">Home</a>
+                    <a class="breadcrumb-item text-dark" href="{% url 'store:shop' 'all' %}">Shop</a>
+                    <span class="breadcrumb-item active">{{ product.name }}</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+
+    <!-- Shop Detail Start -->
+    <div class="container-fluid pb-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-5 mb-30">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner bg-light">
+                    {% for image in images %}
+                        <div class="carousel-item active">
+                            <img class="w-100 h-100" src="{{ image.img.url }}" alt="{{ image.name }}">
+                        </div>
+                    {% endfor %}
+                    </div>
+                    <a class="slide-btn carousel-control-prev" href="#product-carousel" data-slide="prev">
+                        <i class="fa fa-2x fa-angle-left text-dark"></i>
+                    </a>
+                    <a class="slide-btn carousel-control-next" href="#product-carousel" data-slide="next">
+                        <i class="fa fa-2x fa-angle-right text-dark"></i>
+                    </a>
+                </div>
+            </div>
+
+            <form method="post" action="{% url 'cart:buy_now' product.id %}" class="col-lg-7 h-auto mb-30">
+            {% csrf_token %}
+                <div class="h-100 bg-light p-30">
+                    <h3>{{ product.name }}</h3>
+                    <div class="d-flex mb-3">
+                        <div class="text-primary mr-2">
+                            {{ avg_vote|floatformat:2 }}
+                            {{ full|safe }}
+                            {{ half|safe }}
+                            {{ empty|safe }}
+                        </div>
+                    </div>
+                    <h3 class="font-weight-semi-bold mb-4">{{ product.price|floatformat:0|intcomma }} VNĐ</h3>
+                    <p class="mb-4" style="font-size: 20px"><b>Thông tin sản phẩm</b></p>
+                    {{ product.describe|safe }}
+                    <div class="d-flex mb-3">
+                        <strong class="text-dark mr-3">Size:</strong>
+                        {% for sizes in size %}
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-{{ sizes }}" name="size" value="{{ sizes }}">
+                            <label class="custom-control-label" for="size-{{ sizes }}">{{ sizes }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex mb-4">
+                        <strong class="text-dark mr-3">Màu sắc:</strong>
+                        <form>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="color-1" name="color" value="{{ product.color }}">
+                                <label class="custom-control-label" for="color-1" style="width: 30px;  height: 30px; border: solid #ffd333 2px; padding: 0; background-color: {{ product.color }} "></label>
+                            </div>
+                        </form>
+                    </div>
+                        <div class="d-flex align-items-center mb-4 pt-2">
+                            <div class="input-group quantity mr-3" style="width: 130px;">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary btn-minus">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text" name="quantity" class="form-control bg-secondary border-0 text-center" value="1">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary btn-plus">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary px-3" type="submit"><i class="fa fa-shopping-cart mr-1"></i>Thêm vào giỏ hàng</button>
+                        </div>
+                    <div class="d-flex pt-2">
+                        <strong class="text-dark mr-2">Share on:</strong>
+                        <div class="d-inline-flex">
+                            <a class="text-dark px-2" href="">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a class="text-dark px-2" href="">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a class="text-dark px-2" href="">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a class="text-dark px-2" href="">
+                                <i class="fab fa-pinterest"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="bg-light p-30">
+                    <div class="nav nav-tabs mb-4">
+                        <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Hướng dẫn sử dụng</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Thông số</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Hướng dẫn lấy số đo</a>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-pane-1">
+                            <h4 class="mb-3">Hướng dẫn sử dụng sản phẩm</h4>
+                            <img src="{% static 'store/img/huong_dan_su_dung.jpg' %}" style="width: 100%">
+                        </div>
+                        <div class="tab-pane fade" id="tab-pane-2">
+                            <h4 class="mb-3">Bảng đo size</h4>
+                            {% if product.category_id == 1 %}
+                                <img src="{% static 'store/img/size_so_mi.jpg' %}" style="width: 100%">
+                                {% elif product.category_id == 2 %}
+                                <img src="{% static 'store/img/size_quan_tay.jpg' %}" style="width: 100%">
+                                {% elif product.category_id == 3 %}
+                                <img src="{% static 'store/img/size_quan_kaki.jpg' %}" style="width: 100%">
+                                {% elif product.category_id == 4 %}
+                                <img src="{% static 'store/img/size_underwear.jpg' %}" style="width: 100%">
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane fade" id="tab-pane-3">
+                            <h4 class="mb-3">Hướng dẫn lấy số đo cơ thể</h4>
+                            <img src="{% static 'store/img/huong_dan_lay_so_do.jpg' %}" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Shop Detail End -->
+
+
+    <!-- Products Start -->
+    <div class="container-fluid py-5">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Sản phẩm cùng loại</span></h2>
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="owl-carousel related-carousel">
+                {% for p in same_products %}
+                    <div class="product-item bg-light">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="{{ p.image_product.url }}" alt="{{ p.name }}">
+                            <div class="product-action">
+                                <form method="post" action="{% url 'cart:buy_now' p.id %}">
+                                {% csrf_token %}
+                                    <button class="btn btn-outline-dark btn-square" type="submit"><i class="fa fa-shopping-cart"><input type="hidden" name="quantity" value="1"></i></button>
+                                </form>
+                                <form method="post" action="{% url 'wishlist:add' %}">
+                                {% csrf_token %}
+                                    <button class="btn btn-outline-dark btn-square" type="submit"><i class="far fa-heart"><input type="hidden" name="product_id" value="{{p.id}}"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="text-center py-4" style="height: 200px">
+                            <a class="h6 text-wrap text-decoration-none text-truncate" href="{% url 'store:detail' p.id %}">{{ p.name }}</a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                <h5>{{ p.price|floatformat:0|intcomma }} VNĐ</h5>
+                                {% if p.price_origin %}
+                                    <h6 class="text-muted ml-2"><del>{{ p.price_origin|floatformat:0|intcomma }} VNĐ</del></h6>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                {{ p.star|safe }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Products End -->
+
+    <!-- Javascript Slider -->
+    <script>
+        var slider = document.getElementById("product-carousel");
+        var images = slider.getElementsByTagName("img");
+        var buttons = slider.getElementsByClassName("slide-btn");
+        var currentImage = 0;
+      
+        // Hàm để ẩn tất cả các hình ảnh trên slider
+        function hideImages() {
+          for (var i = 0; i < images.length; i++) {
+            images[i].style.display = "none";
+          }
+        }
+      
+        // Hàm để hiển thị hình ảnh hiện tại trên slider
+        function showCurrentImage() {
+          hideImages();
+          images[currentImage].style.display = "block";
+        }
+      
+        // Hàm để chuyển đổi đến hình ảnh tiếp theo trên slider
+        function nextImage() {
+          currentImage++;
+          if (currentImage >= images.length) {
+            currentImage = 0;
+          }
+          showCurrentImage();
+        }
+      
+        // Hàm để chuyển đến hình ảnh trước đó trên slider
+        function prevImage() {
+          currentImage--;
+          if (currentImage < 0) {
+            currentImage = images.length - 1;
+          }
+          showCurrentImage();
+        }
+      
+        // Gán các sự kiện click cho các nút data-slide
+        for (var i = 0; i < buttons.length; i++) {
+          var slide = buttons[i].getAttribute("data-slide");
+          if (slide === "prev") {
+            buttons[i].addEventListener("click", prevImage);
+          } else if (slide === "next") {
+            buttons[i].addEventListener("click", nextImage);
+          }
+        }
+      
+        // Hiển thị hình ảnh đầu tiên trên slider khi tải trang
+        showCurrentImage();
+      </script>
+{% endblock content %}

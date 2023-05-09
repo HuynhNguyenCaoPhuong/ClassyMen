@@ -1,0 +1,55 @@
+{% extends 'store/base.html' %}
+{% block title %}Login | Đăng nhập{% endblock %}
+{% load static %}
+{% block content %}
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="{% url 'store:index' %}">Trang chủ</a>
+                    <span class="breadcrumb-item active">Đăng nhập</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+        
+    <!-- Login Start -->
+    <div class="login">
+        <div class="container-fluid">
+            <div class="row px-xl-5">
+                <div class="col-lg-8 col-md-12 mb-5 pr-3 pr-xl-5">
+                    <img src="{% static 'store/img/login-banner.jpg' %}" alt="login">
+                </div>
+                <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">    
+                    <div class="login-form">
+                        <h2>Đăng nhập</h2>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ result|safe }}
+                            <div class="col-md-12">
+                                <label>E-mail / Tên đăng nhập</label>
+                                <input class="form-control" type="text" name= "email" placeholder="E-mail / Username">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Mật Khẩu</label>
+                                <input class="form-control" type="password" name= "password" placeholder="Password">
+                            </div>
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="newaccount">
+                                    <label class="custom-control-label" for="newaccount">Keep me signed in</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn btn-primary py-2 px-4" type="submit" name="btnLogin" value="Login">Đăng nhập</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Login End -->
+{% endblock content %}

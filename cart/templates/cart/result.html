@@ -1,0 +1,37 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title_tab %}Status | Đặt hàng{% endblock %}
+{% block content %}
+
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="{% url 'store:index' %}">Trang chủ</a>
+                    <span class="breadcrumb-item active">Giỏ hàng</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Checkout Start -->
+    <div class="checkout">
+        <div class="container-fluid">
+            <div class="text-center">
+                <img src="{% static 'store/img/success.png' %}" width="50%" />
+                <p><h2>{{ result }}</h2></p>
+                <p><h4>Bạn đã {{ order_desc }}</h4></p>
+                {% if result == "Đặt hàng thành công" %}
+                {% else %}
+                    <p><h4>Loại thẻ {{ CardType }} thuộc ngân hàng {{ BankCode}}</h4></p>
+                {% endif %}
+                <br>
+            </div>
+        </div>
+    </div>
+    <!-- Checkout End -->
+
+{% endblock %}

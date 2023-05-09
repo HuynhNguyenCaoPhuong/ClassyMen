@@ -1,0 +1,138 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Cart | Giỏ hàng{% endblock title %}
+{% block content %}
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="{% url 'store:index' %}">Trang chủ</a>
+                    <span class="breadcrumb-item active">Giỏ hàng</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+
+    <!-- Cart Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-light table-borderless table-hover text-center mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        {% for c in cart %}
+                            {% with product=c.product %}
+                        <tr>
+                            <td class="align-middle" style="line-height: 0px"><img src="{{ product.image_product.url }}" alt="{{ product.name}}" style="width: 50px">{{ product.name}}</td>
+                            <td class="align-middle">{{ c.price|floatformat:0|intcomma }}</td>
+                            <td class="align-middle">
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-minus" id="btn-minus-{{ product.id }}">
+                                        <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" id="quantity{{ product.id }}" name="quantity{{ product.id }}" value="{{ c.quantity }}">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-plus" id="btn-plus-{{ product.id }}">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle">{{ c.total_price|floatformat:0|intcomma }}</td>
+                            <td class="align-middle"><button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#sp{{ product.id }}"><i class="fa fa-times"></i></button></td>
+                        </tr>
+                        <div class="modal" tabindex="-1" id="sp{{ product.id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Xóa sản phẩm</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Bạn có chắc muốn xóa sản phẩm <b>{{ product.name }}</b> ra khỏi giỏ hàng không?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="post" action="{% url 'cart:cart_remove' product.id %}">
+                                        {% csrf_token %}
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không xóa</button>
+                                        <button type="submit" class="btn btn-primary">Đồng ý</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                            {% endwith %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4">
+            <form method="post">
+                {% csrf_token %}
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Thông tin đơn hàng</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <div class="border-bottom pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6>Tạm tính</h6>
+                            <h6>{{ cart.get_total_price|floatformat:0|intcomma }} VNĐ</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Phí vận chuyển</h6>
+                            <h6 class="font-weight-medium">0 VNĐ</h6>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Tổng cộng</h5>
+                            <h5>{{ cart.get_final_total_price|floatformat:0|intcomma }} VNĐ</h5>
+                        </div>
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3"    type="submit" name="btnUpdateCart" value="cart_update">Cập nhật</button>
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3"  type="button" onclick="window.location.href='{% url 'cart:checkout' %}'">Mua hàng</button>
+                    </div>
+                </div>
+                {% for c in cart %}
+                    {% with product=c.product%}
+                        <input type="hidden" value="{{ c.quantity }}" id="quantity_{{ product.id }}" name="quantity_{{ product.id }}"/>
+                        <script>
+                            $(document).ready(function(){
+                                $("#quantity{{ product.id }}").change(function(){
+                                    let gia_tri = $("#quantity{{ product.id }}").val();
+                                    $("#quantity_{{ product.id }}").val(gia_tri);
+                                });
+                            });
+                            $(document).ready(function(){
+                                $("#btn-minus-{{ product.id }}").click(function(){
+                                    let gia_tri = $("#quantity{{ product.id }}").val();
+                                    $("#quantity_{{ product.id }}").val(gia_tri);
+                                });
+                            });
+                            $(document).ready(function(){
+                                $("#btn-plus-{{ product.id }}").click(function(){
+                                    let gia_tri = $("#quantity{{ product.id }}").val();
+                                    $("#quantity_{{ product.id }}").val(gia_tri);
+                                });
+                            });
+                        </script>
+                    {% endwith %}
+                {% endfor %}        
+            </form>
+            </div>
+        </div>
+    </div>
+    <!-- Cart End -->
+{% endblock content %}

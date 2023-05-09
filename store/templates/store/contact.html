@@ -1,0 +1,65 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}Contact | Liên hệ{% endblock title %}
+{% block content %}
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="{% url 'store:index' %}">Trang chủ</a>
+                    <span class="breadcrumb-item active">Liên hệ</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">MẪU LIÊN HỆ</span></h2>
+        <div class="row px-xl-5">
+            <div class="col-lg-7 mb-5">
+                <div class="contact-form bg-light p-30">
+                    <form  method="post">
+                    {% csrf_token %}
+                    {{ result|safe }}
+                        <div class="control-group">
+                            {{ form.name }}
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            {{ form.email }}
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            {{ form.subject }}
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            {{ form.message }}
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary py-2 px-4" type="submit" name="button-submit" value="submit">Gửi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-5 mb-5">
+                <div class="bg-light p-30 mb-30">
+                    <iframe style="width: 100%; height: 250px;"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.8054574310067!2d106.64170779999999!3d10.749471699999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752e8805302ab7%3A0x2c57e6c24eb18fb0!2zMjk5IMSQLiBI4bqtdSBHaWFuZywgUGjGsOG7nW5nIDUsIFF14bqtbiA2LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmg!5e0!3m2!1sen!2s!4v1678031386394!5m2!1sen!2s"
+                    frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                </div>
+                <div class="bg-light p-30 mb-3">
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>299 Hậu Giang, Phường 5, Quận 6, TP. Hồ Chí Minh</p>
+                    <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>contactus@classymen.com</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>1900633370</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+{% endblock content %}

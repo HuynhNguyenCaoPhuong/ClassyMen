@@ -1,0 +1,105 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}Q & A | Hỏi đáp{% endblock title %}
+{% block content %}
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="{% url 'store:index' %}">Trang chủ</a>
+                    <span class="breadcrumb-item active">Hỏi đáp</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Tư vấn hỏi đáp</span></h2>
+        <div class="row px-xl-5">
+            <div class="col-lg-3 mb-5">
+                <div class="contact-form bg-light p-30">
+                    <p class="mb-2" style="text-align:center">Đây là những câu hỏi chung của khách hàng, bạn có thể tham khảo hoặc gọi cho chúng tôi qua đường dây nóng:</p>
+                    <p class="mb-2" style="text-align:center; font-weight: bold">1900633370</p>
+                </div>
+            </div>
+            <div class="col-lg-9 mb-5" id="accordion">
+                <div class="card">
+                    <div class="card-header">
+                        <a class="btn" data-toggle="collapse" href="#collapse1">
+                            <h5>Cách thức mua hàng</h5>
+                        </a>
+                    </div>
+                    <div id="collapse1" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <ul>
+                                <li><p class="mb-2" style="text-align:left">Bước 1: Click chọn sản phẩm quý khách quan tâm.</p></li>
+                                <li><p class="mb-2" style="text-align:left">Bước 2: Click vào hình ảnh để zoom (+) và xem chi tiết sản phẩm. Kiểm tra thông tin về size, chất liệu vải, hướng dẫn sử dụng và giá sản phẩm.</p></li>
+                                <li><p class="mb-2" style="text-align:left">Bước 3: Chọn size thích hợp, chọn số lượng và add sản phẩm vào giỏ hàng.</p></li>
+                                <li><p class="mb-2" style="text-align:left">Bước 4: Quý khách tiếp tục shopping sản phẩm khác hoặc click Thanh toán để thực hiện thanh toán.</p></li>
+                                <li><p class="mb-2" style="text-align:left">Bước 5: Chọn phương thức thanh toán.</p></li>
+                                <li><p class="mb-2" style="text-align:left">Bước 6: Chọn phương thức xác thực đơn hàng: xác thực qua email hoặc bộ phận chăm sóc khách hàng của chúng tôi sẽ liên hệ trực tiếp với quý khách qua điện thoại.</p></li>
+                                <li><p class="mb-2" style="text-align:left">Bước 7: Sau khi xác thực đơn hàng, nhân viên của chúng tôi sẽ liên hệ và hẹn quý khách trước khi đến giao sản phẩm.</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="btn" data-toggle="collapse" href="#collapse2">
+                            <h5>Thanh toán trả sau</h5>
+                        </a>
+                    </div>
+                    <div id="collapse2" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <ul>
+                                <li><p class="mb-2" style="text-align:left">Quý khách có thể thanh toán trực tiếp đơn hàng với nhân viên giao hàng của chúng tôi.</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="btn" data-toggle="collapse" href="#collapse3">
+                            <h5>Giao hàng</h5>
+                        </a>
+                    </div>
+                    <div id="collapse3" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol style="font-weight: bold">
+                                <li><p class="mb-2" style="text-align:left; font-weight: bold">Chính sách giao hàng</p></li>
+                                <p class="mb-2" style="text-align:left; font-weight: normal">Classy Men áp dụng chính sách giao hàng miễn phí trên toàn quốc đối với khách hàng mua sắm online cho đơn hơn từ 1.500.000 đồng.</p>
+                                <li><p class="mb-2" style="text-align:left; font-weight: bold">Thời gian giao hàng</p></li>
+                                <p class="mb-2" style="text-align:left; font-weight: normal">- Khu vực TP. HCM và Hà Nội: tối đa 02 ngày.</p>
+                                <p class="mb-2" style="text-align:left; font-weight: normal">- Khu vực tỉnh: tối đa 03 ngày.</p>
+                                <p class="mb-2" style="text-align:left; font-weight: normal">- Thời gian cam kết giao hàng không tính ngày nghỉ lễ ( thứ 7 và chủ nhật ).</p>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="btn" data-toggle="collapse" href="#collapse4">
+                            <h5>Đổi hàng</h5>
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <ol>
+                                <li><p class="mb-2" style="text-align:left">Quý khách vui lòng mang theo hóa đơn khi đổi sản phẩm.</p></li>
+                                <li><p class="mb-2" style="text-align:left">Sản phẩm đổi phải còn đầy đủ thẻ bài treo, nhãn sản phẩm và chưa qua sử dụng.</p></li>
+                                <li><p class="mb-2" style="text-align:left">Giá trị sản phẩm đổi: Bằng hoặc cao hơn giá trị sản phẩm đã mua trước đó (nếu cao hơn thì sẽ bù thêm tiền).</p></li>
+                                <li><p class="mb-2" style="text-align:left">Thời gian đổi sản phẩm trong vòng 07 ngày kể từ ngày mua trên hoá đơn bán hàng.</p></li>
+                                <li><p class="mb-2" style="text-align:left">Địa điểm đổi: Cửa hàng Classy Men trên toàn quốc</p></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+{% endblock content %}
